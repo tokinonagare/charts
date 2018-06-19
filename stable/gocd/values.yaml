@@ -91,14 +91,15 @@ server:
     enabled: true
     # server.ingress.hosts is used to create an Ingress record.
     hosts:
-      - gocd.laiwan.io
+      - gocd.shafayouxi.org
     annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: 'true'
     tls:
       - secretName: gocd-tls
         hosts:
-          - gocd.laiwan.io
+          - gocd.shafayouxi.org
+
 
   persistence:
     # server.persistence.enabled is the toggle for server volume persistence.
@@ -111,11 +112,11 @@ server:
     # If undefined (the default) or set to null, no storageClassName spec is
     # set, choosing 'standard' storage class available with the default provisioner (gcd-pd on GKE, hostpath on minikube, etc).
 
-    storageClass: rook-ceph-block
+    # storageClass: rook-ceph-block
 
     # A manually managed Persistent Volume and Claim
     # If defined, PVC must be created manually before volume will be bound
-    # existingClaim: gocd-pvc
+    existingClaim: gocd-pvc
     # To choose a suitable persistent volume from available static persistent volumes, selectors are used.
     # pvSelector:
     #  matchLabels:
