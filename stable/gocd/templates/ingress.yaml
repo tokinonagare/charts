@@ -14,15 +14,18 @@ metadata:
       {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
-  backend:
-    serviceName: {{ template "gocd.fullname" . }}-server
-    servicePort: {{ .Values.server.service.httpPort }}
-  rules:
-    {{- range $host := .Values.server.ingress.hosts }}
-    - host: {{ $host }}
-    {{- end -}}
-  {{- if .Values.server.ingress.tls }}
   tls:
-{{ toYaml .Values.server.ingress.tls | indent 4 }}
-  {{- end -}}
-{{- end -}}
+    - hosts:
+      - gocd.shafayouxi.org
+      # This assumes tls-secret exists and the SSL
+      # certificate contains a CN for gocd.shafayouxi.io
+      secretName: gocd-tls
+  rules:
+    - host: gocd.shafayouxi.org
+      http:
+        paths:
+        - path: /
+          backend:
+            # This assumes http-svc exists and routes to healthy endpoints
+            serviceName: gocd-server
+            servicePort: 8153
